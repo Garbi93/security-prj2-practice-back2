@@ -91,6 +91,8 @@ public class TodoRepositoryTests {
         log.info(result.getTotalElements());
 
         log.info(result.getContent());
+        // pageNumber 당 pageSize 만큼 출력
+        result.getContent().stream().forEach(todo -> log.info(todo));
     }
 
 }
