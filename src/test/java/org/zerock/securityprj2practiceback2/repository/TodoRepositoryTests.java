@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.zerock.securityprj2practiceback2.domain.Todo;
 
 import java.time.LocalDate;
@@ -31,15 +35,19 @@ public class TodoRepositoryTests {
     @Test
     public void testInsert() {
 
-        Todo todo = Todo.builder()
-                .title("Title")
-                .content("Content....")
-                .dueDate(LocalDate.of(2023,12,30))
-                .build();
+        for (int i = 0; i < 100; i++) {
 
-        Todo result = todoRepository.save(todo);
+            Todo todo = Todo.builder()
+                    .title("Title..." + i)
+                    .content("Content...." + i)
+                    .dueDate(LocalDate.of(2023,12,30))
+                    .build();
 
-        log.info(result);
+            Todo result = todoRepository.save(todo);
+
+            log.info(result);
+        }
+
     }
 
     // todo 데이터 Id 값으로 찾아오기 테스트
@@ -69,6 +77,20 @@ public class TodoRepositoryTests {
         todo.changeComplete(true);
 
         todoRepository.save(todo);
+    }
+
+
+    // todo 목록 페이징 처리
+    @Test
+    public void testPaging() {
+        // 페이지 번호는 0 부터 시작한다.
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("tno").descending());
+
+        Page<Todo> result = todoRepository.findAll(pageable);
+
+        log.info(result.getTotalElements());
+
+        log.info(result.getContent());
     }
 
 }
