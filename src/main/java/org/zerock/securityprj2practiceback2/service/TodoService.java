@@ -9,6 +9,16 @@ public interface TodoService {
 
     TodoDTO get(Long tno);
 
+    // Todo 등록하기 -> 우리는 등록 완료 후 pk 값만 던져주기
+    Long register(TodoDTO dto);
+
+    // 수정 하기
+    void modify(TodoDTO dto);
+
+    // 삭제 하기
+    void remove(Long tno);
+
+
     // Todo Entity 를 TodoDTO 타입으로 변경
     default TodoDTO entityToDTO(Todo todo) {
         return TodoDTO.builder()
