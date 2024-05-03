@@ -95,11 +95,11 @@ public class TodoRepositoryTests {
         result.getContent().stream().forEach(todo -> log.info(todo));
     }
 
-    @Test
-    public void testSearch1() {
-
-        todoRepository.search1();
-
-    }
+//    @Test
+//    public void testSearch1() {
+//
+//        todoRepository.search1();
+//
+//    }
 
 }

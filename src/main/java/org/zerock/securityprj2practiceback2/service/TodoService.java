@@ -2,6 +2,8 @@ package org.zerock.securityprj2practiceback2.service;
 
 import jakarta.transaction.Transactional;
 import org.zerock.securityprj2practiceback2.domain.Todo;
+import org.zerock.securityprj2practiceback2.dto.PageRequestDTO;
+import org.zerock.securityprj2practiceback2.dto.PageResponseDTO;
 import org.zerock.securityprj2practiceback2.dto.TodoDTO;
 
 @Transactional
@@ -18,6 +20,7 @@ public interface TodoService {
     // 삭제 하기
     void remove(Long tno);
 
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
 
     // Todo Entity 를 TodoDTO 타입으로 변경
     default TodoDTO entityToDTO(Todo todo) {
