@@ -3,6 +3,7 @@ package org.zerock.securityprj2practiceback2.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,7 +56,20 @@ public class CustomFileUtil {
             Path savePath = Paths.get(uploadPath, savedName);
 
             try {
+                // 원본 파일 업로드
                 Files.copy(file.getInputStream(), savePath);
+
+                // 이미지 인 경우에만 썸네일로 만들어주기
+                String contentType = file.getContentType(); // 이미지 면 Mime type
+
+                // 이 경우면 썸네일 생성 대상
+                if (contentType != null || contentType.startsWith("image")) {
+                    Path thumbnailPath = Paths.get(uploadPath, "s_" + savedName);
+
+                    Thumbnails.of(savePath.toFile()).size(200,200).toFile(thumbnailPath.toFile());
+                }
+
+
                 uploadNames.add(savedName);
             } catch (IOException e) {
                 throw new RuntimeException(e);
