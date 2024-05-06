@@ -36,7 +36,7 @@ public class ProductServiceTests {
                 .pdesc("신규 추가 상품입니다.")
                 .price(1000)
                 .build();
-//uuid가 있어야 함
+        //uuid가 있어야 함
         productDTO.setUploadFileNames(
                 List.of( UUID.randomUUID()+"_" +"Test1.jpg",
                         UUID.randomUUID()+"_" +"Test2.jpg"));
