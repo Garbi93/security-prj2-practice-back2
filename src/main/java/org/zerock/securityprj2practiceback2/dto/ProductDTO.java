@@ -30,7 +30,7 @@ public class ProductDTO {
 
     // 이미 업로드 된 파일들 이름 담아오는 것
     @Builder.Default
-    private List<String> uploadedFileNames = new ArrayList<>();
+    private List<String> uploadFileNames = new ArrayList<>();
 
 
 }
