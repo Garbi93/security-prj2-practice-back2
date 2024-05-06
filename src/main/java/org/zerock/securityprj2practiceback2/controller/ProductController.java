@@ -6,7 +6,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.securityprj2practiceback2.dto.PageRequestDTO;
+import org.zerock.securityprj2practiceback2.dto.PageResponseDTO;
 import org.zerock.securityprj2practiceback2.dto.ProductDTO;
+import org.zerock.securityprj2practiceback2.service.ProductService;
 import org.zerock.securityprj2practiceback2.util.CustomFileUtil;
 
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class ProductController {
 
     private final CustomFileUtil fileUtil;
+
+    private final ProductService productService;
 
     @PostMapping("/")
     public Map<String, String> register(ProductDTO productDTO) {
@@ -41,6 +46,12 @@ public class ProductController {
 
         return fileUtil.getFile(fileName);
 
+    }
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+
+        return productService.getList(pageRequestDTO);
     }
 
 }
