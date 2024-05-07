@@ -58,6 +58,10 @@ dependencies {
     implementation 'net.coobird:thumbnailator:0.4.19'
     // thumbnailator -----------------------------------------------------
 
+    // spring security -----------------------------------------------------
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // spring security -----------------------------------------------------
+
 
 }
 
