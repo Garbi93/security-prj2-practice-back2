@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.zerock.securityprj2practiceback2.security.filter.JWTCheckFilter;
 import org.zerock.securityprj2practiceback2.security.handler.APILoginFailHandler;
 import org.zerock.securityprj2practiceback2.security.handler.APILoginSuccessHandler;
+import org.zerock.securityprj2practiceback2.security.handler.CustomAccessDeniedHandler;
 
 import java.util.Arrays;
 
@@ -47,6 +48,12 @@ public class CustomSecurityConfig {
         });
 
         http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling(config -> {
+
+            config.accessDeniedHandler(new CustomAccessDeniedHandler());
+
+        });
 
         return http.build();
     }
