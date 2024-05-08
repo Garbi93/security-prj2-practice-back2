@@ -50,6 +50,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
             log.info("JWT claims: " + claims);
 
+            // dest 다음 목적지로 이동 시키는
             filterChain.doFilter(request, response);
 
         }catch(Exception e){
@@ -67,7 +68,5 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             printWriter.close();
         }
 
-        // dest 다음 목적지로 이동 시키는
-        filterChain.doFilter(request, response);
     }
 }
