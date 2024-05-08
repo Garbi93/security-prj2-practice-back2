@@ -6,11 +6,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.zerock.securityprj2practiceback2.dto.MemberDTO;
 import org.zerock.securityprj2practiceback2.util.JWTUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -18,13 +22,15 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        // 해당 경로 주소는 필터를 거치지 않아 주는 기능
-        // true 면 체크 안함
+    // 해당 경로 주소는 필터를 거치지 않아 주는 기능
         String path = request.getRequestURI();
 
         log.info("check uri --------------" + path);
 
-
+        // true 면 체크 안함
+        if (path.startsWith("/api/member/")) {
+            return true;
+        }
 
         // false 면 체크
         return false;
@@ -49,6 +55,23 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             Map<String, Object> claims = JWTUtil.validateToken(accessToken);
 
             log.info("JWT claims: " + claims);
+
+            String email = (String) claims.get("email");
+            String pw = (String) claims.get("pw");
+            String nickname = (String) claims.get("nickname");
+            Boolean social = (Boolean) claims.get("social");
+            List<String> roleNames = (List<String>) claims.get("roleNames");
+
+            MemberDTO memberDTO = new MemberDTO(email, pw, nickname, social.booleanValue(), roleNames);
+
+            log.info("-----------------------------------");
+            log.info(memberDTO);
+            log.info(memberDTO.getAuthorities());
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(memberDTO, pw, memberDTO.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
             // dest 다음 목적지로 이동 시키는
             filterChain.doFilter(request, response);
