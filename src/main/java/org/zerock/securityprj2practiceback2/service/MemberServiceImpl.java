@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 
         LinkedHashMap<String, LinkedHashMap> bodyMap = response.getBody();
 
-        log.info("--------------------------------");
+        log.info("response --------------------------------");
         log.info(bodyMap);
 
     }
