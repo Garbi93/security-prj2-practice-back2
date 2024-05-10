@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.zerock.securityprj2practiceback2.domain.Member;
 import org.zerock.securityprj2practiceback2.domain.MemberRole;
 import org.zerock.securityprj2practiceback2.dto.MemberDTO;
+import org.zerock.securityprj2practiceback2.dto.MemberModifyDTO;
 import org.zerock.securityprj2practiceback2.repository.MemberRepository;
 
 import java.util.LinkedHashMap;
@@ -60,6 +61,20 @@ public class MemberServiceImpl implements MemberService {
         MemberDTO memberDTO = entityToDTO(socialMember);
 
         return memberDTO;
+    }
+
+    @Override
+    public void modifyMember(MemberModifyDTO memberModifyDTO) {
+
+        Optional<Member> result = memberRepository.findById(memberModifyDTO.getEmail());
+
+        Member member = result.orElseThrow();
+
+        member.changeNickname(memberModifyDTO.getNickname());
+        member.changeSocial(false);
+        member.changePw(passwordEncoder.encode(memberModifyDTO.getPw()));
+
+        memberRepository.save(member);
     }
 
     // 기존 DB 에 동일한 회원 정보가 없는 경우 -> 카카오 회원 생성 시켜주기
