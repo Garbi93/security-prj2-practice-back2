@@ -21,7 +21,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             "where " +
             "mc.owner.email = :email and pi.ord = 0 " +
             "order by ci.cino desc ")
-    List<Object[]> getItemsOfCartDTOByEmail(@Param("email") String email);
+    List<CartItemListDTO> getItemsOfCartDTOByEmail(@Param("email") String email);
 
 
     // 이메일, 상품 번호로 해당 상품이 장바구니 아이템 으로 존재 하는지 확인 필요
